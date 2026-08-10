@@ -1,0 +1,26 @@
+from random import randint
+
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        self.nums = nums
+        self.partitionSort(0, len(nums) - 1)
+        return nums
+    
+    def partitionSort(self, left, right):
+        if left >= right:
+            return
+        
+        random_pivot = randint(left, right)
+        self.nums[right], self.nums[random_pivot] = self.nums[random_pivot], self.nums[right]
+        pivot = self.nums[right]
+
+        boundary = left
+        for idx in range(left, right):
+            if self.nums[idx] <= pivot:
+                self.nums[boundary], self.nums[idx] = self.nums[idx], self.nums[boundary]
+                boundary += 1
+        
+        self.nums[boundary], self.nums[right] = self.nums[right], self.nums[boundary]
+
+        self.partitionSort(left, boundary - 1)
+        self.partitionSort(boundary + 1, right)
